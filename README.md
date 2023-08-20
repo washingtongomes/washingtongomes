@@ -3,7 +3,6 @@ Autor: Washington
   
 ### Bem-Vindo ✨
 
-[![Snake Game](https://github.com/washingtongomes/washingtongomes/actions/workflows/main2.yml/badge.svg)](https://github.com/washingtongomes/washingtongomes/actions/workflows/main2.yml)
 
 
 </div><br>
