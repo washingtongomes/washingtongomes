@@ -1,9 +1,13 @@
 name: Generate Snake
 
+# <<< IMPORTANTE: permite push para a branch 'output' usando GITHUB_TOKEN
+permissions:
+  contents: write
+
 on:
   schedule:
-    - cron: "0 0 * * *" # Executa todo dia à meia-noite UTC
-  workflow_dispatch: # Permite rodar manualmente
+    - cron: "0 0 * * *"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -11,9 +15,9 @@ jobs:
 
     steps:
       - name: Checkout do repositório
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Gerar animações da cobrinha (SVG e GIF)
+      - name: Gerar animações (SVG + GIF)
         uses: Platane/snk@v3
         with:
           github_user_name: "washingtongomes"
@@ -21,10 +25,17 @@ jobs:
             dist/github-contribution-grid-snake.svg
             dist/github-contribution-grid-snake.gif
 
-      - name: Publicar no branch output
-        uses: crazy-max/ghaction-github-pages@v3.1.0
+      - name: Commit dos arquivos gerados
+        uses: EndBug/add-and-commit@v9
         with:
-          target_branch: output
-          build_dir: dist
+          author_name: "github-actions[bot]"
+          author_email: "41898282+github-actions[bot]@users.noreply.github.com"
+          message: "chore: update snake images"
+          add: "dist/**"
+
+      - name: Push to output branch
+        run: |
+          # força o push do conteúdo atual para a branch 'output'
+          git push origin HEAD:output --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
